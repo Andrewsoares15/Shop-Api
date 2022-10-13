@@ -34,7 +34,7 @@ public class Shop {
         var shop = new Shop();
         shop.setIdentifier(shopDTO.getIdentifier());
         shop.setStatus(shopDTO.getStatus());
-        shop.setDateCreation(shopDTO.getDateCreation());
+        shop.setDateCreation(LocalDate.now());
         shop.setItems(
                 shopDTO.getItems()
                         .stream()

@@ -28,8 +28,8 @@ public class ShopItem {
 
     public static ShopItem toShopItem(ShopItemDTO itemDTO){
         var shopItem = new ShopItem();
-        shopItem.setAmount(shopItem.amount);
-        shopItem.setPrice(shopItem.getPrice());
+        shopItem.setAmount(itemDTO.getAmount());
+        shopItem.setPrice(itemDTO.getPrice());
         shopItem.setProductIdentifier(itemDTO.getProductIdentifier());
         return shopItem;
     }

@@ -19,7 +19,7 @@ public class ShopDTO {
 
     private List<ShopItemDTO> items;
 
-    public static Shop toShopDTO(Shop shop){
+    public static ShopDTO toShopDTO(Shop shop){
         var shopDTO = new ShopDTO();
         shopDTO.setIdentifier(shop.getIdentifier());
         shopDTO.setStatus(shop.getStatus());
@@ -29,6 +29,6 @@ public class ShopDTO {
                         .stream()
                         .map(e -> ShopItemDTO.toShopItemDTO(e))
                         .collect(Collectors.toList()));
-        return shop;
+        return shopDTO;
     }
 }
