@@ -2,10 +2,13 @@ package com.shop.shopapi.model.entity;
 
 import com.shop.shopapi.model.DTO.ShopItemDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity(name = "shop_item")
 public class ShopItem {
 

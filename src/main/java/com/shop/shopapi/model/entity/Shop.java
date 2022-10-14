@@ -2,6 +2,8 @@ package com.shop.shopapi.model.entity;
 
 import com.shop.shopapi.model.DTO.ShopDTO;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -9,7 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Entity(name = "shop")
-@Data
+@Getter
+@Setter
 public class Shop {
 
     @Id

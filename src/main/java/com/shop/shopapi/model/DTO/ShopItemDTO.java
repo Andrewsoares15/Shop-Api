@@ -2,8 +2,11 @@ package com.shop.shopapi.model.DTO;
 
 import com.shop.shopapi.model.entity.ShopItem;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class ShopItemDTO {
 
     private String productIdentifier;

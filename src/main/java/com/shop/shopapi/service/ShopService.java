@@ -4,7 +4,9 @@ import com.shop.shopapi.model.DTO.ShopDTO;
 import com.shop.shopapi.model.entity.Shop;
 import com.shop.shopapi.model.entity.ShopItem;
 import com.shop.shopapi.model.entity.Status;
+import com.shop.shopapi.producer.ShopProducer;
 import com.shop.shopapi.repository.ShopRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,16 +16,20 @@ import java.util.stream.Collectors;
 
 @Service
 public class ShopService {
-
     @Autowired
     private ShopRepository repository;
+    @Autowired
+    private ShopProducer shopProducer;
 
-    public Shop saveShop(ShopDTO shopDTO){
+    public ShopDTO saveShop(ShopDTO shopDTO){
         var shop = createShop(shopDTO);
         for (ShopItem item : shop.getItems()) {
             item.setShop(shop);
         }
-        return repository.save(shop);
+        Shop save = repository.save(shop);
+        ShopDTO saveShopDTO = ShopDTO.toShopDTO(save);
+        shopProducer.send(saveShopDTO);
+        return saveShopDTO;
     }
 
     public List<ShopDTO> get(){
