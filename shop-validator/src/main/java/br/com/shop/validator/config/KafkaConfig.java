@@ -1,6 +1,6 @@
-package com.shop.shopapi.config;
+package br.com.shop.validator.config;
 
-import com.shop.shopapi.model.DTO.ShopDTO;
+import br.com.shop.validator.model.DTO.ShopDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -18,16 +18,17 @@ import java.util.HashMap;
 @Configuration
 public class KafkaConfig {
 
-    @Value(value="${kafka.bootstrapAddress:localhost:9092}")
-    private String boostrapAddress;
+    @Value("kafka.boostrapservers")
+    private String boostrapServer;
 
     public ProducerFactory<String, ShopDTO> producerFactory(){
         HashMap<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapAddress);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapServer);
+        props.put(ProducerConfig.CLIENT_ID_CONFIG, "shop-validator");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        props.put(ProducerConfig.CLIENT_ID_CONFIG, "shop-api");
         return new DefaultKafkaProducerFactory<>(props);
+
     }
     @Bean
     public KafkaTemplate<String, ShopDTO> kafkaTemplate(){
@@ -37,17 +38,15 @@ public class KafkaConfig {
     public ConsumerFactory<String, ShopDTO> consumerFactory(){
         JsonDeserializer<ShopDTO> deserializer = new JsonDeserializer<>(ShopDTO.class);
         HashMap<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapAddress);
-
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapServer);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
 
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ShopDTO> concurrentKafkaListenerContainerFactory(){ // pesquisar sobre o que seria o concurrentKafka
+    public ConcurrentKafkaListenerContainerFactory<String, ShopDTO> concurrentKafkaListenerContainerFactory(){
         ConcurrentKafkaListenerContainerFactory<String, ShopDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
     }
-
 }
