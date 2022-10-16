@@ -13,6 +13,8 @@ public class ShopDTO {
 
     private LocalDate dateCreation;
 
+    private Status status;
+
     private List<ShopItemDTO> items;
 
 }

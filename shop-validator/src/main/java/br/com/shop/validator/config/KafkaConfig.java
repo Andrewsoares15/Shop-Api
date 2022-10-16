@@ -14,11 +14,12 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class KafkaConfig {
 
-    @Value("kafka.boostrapservers")
+    @Value(value="${kafka.bootstrapAddress:localhost:9092}")
     private String boostrapServer;
 
     public ProducerFactory<String, ShopDTO> producerFactory(){
@@ -37,14 +38,15 @@ public class KafkaConfig {
 
     public ConsumerFactory<String, ShopDTO> consumerFactory(){
         JsonDeserializer<ShopDTO> deserializer = new JsonDeserializer<>(ShopDTO.class);
-        HashMap<String, Object> props = new HashMap<>();
+        deserializer.setUseTypeMapperForKey(true);
+        Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapServer);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
 
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ShopDTO> concurrentKafkaListenerContainerFactory(){
+    public ConcurrentKafkaListenerContainerFactory<String, ShopDTO> kakfaConsumer(){
         ConcurrentKafkaListenerContainerFactory<String, ShopDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

@@ -18,5 +18,6 @@ public class Product {
     private String identifier;
 
     @Column(nullable = false)
-    private Double price;
+    private Integer amount;
+
 }
