@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -42,5 +43,10 @@ public class ShopService {
         shopDTO.setIdentifier(UUID.randomUUID().toString());
         shopDTO.setStatus(Status.PENDING);
         return Shop.toShop(shopDTO);
+    }
+
+    public void updateStatusShop(Shop shop, Status status){
+        shop.setStatus(status);
+        repository.save(shop);
     }
 }

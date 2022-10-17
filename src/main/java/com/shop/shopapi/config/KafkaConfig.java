@@ -36,6 +36,7 @@ public class KafkaConfig {
 
     public ConsumerFactory<String, ShopDTO> consumerFactory(){
         JsonDeserializer<ShopDTO> deserializer = new JsonDeserializer<>(ShopDTO.class);
+        deserializer.setUseTypeMapperForKey(true);
         HashMap<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapAddress);
 
@@ -44,7 +45,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ShopDTO> concurrentKafkaListenerContainerFactory(){ // pesquisar sobre o que seria o concurrentKafka
+    public ConcurrentKafkaListenerContainerFactory<String, ShopDTO> kafkaConsumer(){ // pesquisar sobre o que seria o concurrentKafka
         ConcurrentKafkaListenerContainerFactory<String, ShopDTO> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;
