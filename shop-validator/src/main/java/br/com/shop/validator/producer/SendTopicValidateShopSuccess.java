@@ -17,7 +17,7 @@ public class SendTopicValidateShopSuccess{
     private final static String ShopDTO_TOPIC_VALIDATE_NAME = "TOPIC_SHOP_VALIDATE";
 
     public void send(ShopDTO ShopDTO) {
-        log.info("m=send, ShopDTO validate with success, status {}", ShopDTO.getStatus());
+        log.info("Shop validate with success, status {}", ShopDTO.getStatus());
         ShopDTO.setStatus(Status.EXECUTED);
         kafkaTemplate.send(ShopDTO_TOPIC_VALIDATE_NAME, ShopDTO);
     }
