@@ -8,32 +8,33 @@ import br.com.shop.validator.producer.SendTopicValidateShopError;
 import br.com.shop.validator.producer.SendTopicValidateShopSuccess;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class ReceiveKafkaMessage {
 
-    private final static String ShopDTO_TOPIC_NAME = "TOPIC_ShopDTO";
+    private final static String ShopDTO_TOPIC_NAME = "TOPIC_SHOP";
 
+    @Autowired
     private ProductRepository productRepository;
-
+    @Autowired
     private ValidateShop validateShop;
-
+    @Autowired
     private SendTopicValidateShopError sendTopicValidateShopDTOError;
-
+    @Autowired
     private SendTopicValidateShopSuccess sendTopicValidateShopDTOSucess;
 
-    @KafkaListener(topics = ShopDTO_TOPIC_NAME, groupId = "consumerValidateShopDTO", containerFactory = "kakfaConsumer")
+    @KafkaListener(topics = ShopDTO_TOPIC_NAME, groupId = "consumerValidateShop", containerFactory = "kakfaConsumer")
     public void listenShopDTOTopic(ShopDTO ShopDTO) {
         log.info("message received {} ", ShopDTO.getIdentifier());
         try{
             boolean sucess = true;
-            for(ShopItemDTO ShopDTOItemDTO : ShopDTO.getItems()){
-                var product = productRepository.findByIdentifier(ShopDTOItemDTO.getProductIdentifier());
-                boolean validate = validateShop.isValidateShopDTO(product, ShopDTOItemDTO);
+            for(ShopItemDTO ShopItem : ShopDTO.getItems()){
+                var product = productRepository.findByIdentifier(ShopItem.getProductIdentifier());
+                boolean validate = validateShop.isValidateShopDTO(product, ShopItem);
                 if(!validate){
                     sendTopicValidateShopDTOError.send(ShopDTO);
                     sucess = false;
