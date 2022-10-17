@@ -17,7 +17,7 @@ public class SendTopicValidateShopError {
     private final static String ShopDTO_TOPIC_VALIDATE_NAME = "TOPIC_SHOP_VALIDATE";
 
     public void send(ShopDTO ShopDTO) {
-        log.info("Shop validate with error, status {}", ShopDTO);
+        log.info("Shop validate with error, status {}", ShopDTO.getStatus());
         ShopDTO.setStatus(Status.ERROR);
         kafkaTemplate.send(ShopDTO_TOPIC_VALIDATE_NAME, ShopDTO);
     }

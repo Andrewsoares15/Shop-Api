@@ -1,3 +1,4 @@
 rootProject.name = 'shop-api'
 include 'shop-validator'
+include 'shop-report'
 
