@@ -8,9 +8,10 @@ import com.shop.shopapi.service.ShopService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
-@Service
+@Component
 @Slf4j
 public class ShopValidateConsumer {
 
@@ -26,8 +27,8 @@ public class ShopValidateConsumer {
         log.info("validating message receive {}", shopDTO.getIdentifier());
         try {
             var shop = repository.findByIdentifier(shopDTO.getIdentifier()).get();
-            log.info("message validate with success {}", shopDTO.getIdentifier());
             shopService.updateStatusShop(shop, shopDTO.getStatus());
+            log.info("message validate with success {}", shopDTO.getIdentifier());
         }catch (Exception e){
             log.warn("message validate with error {}", shopDTO.getIdentifier());
         }
