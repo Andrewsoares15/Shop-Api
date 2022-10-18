@@ -14,6 +14,6 @@ public class ShopProducer {
     private static final String SHOP_TOPIC_NAME= "TOPIC_SHOP";
 
     public void send(ShopDTO shopDTO){
-        kafkaTemplate.send(SHOP_TOPIC_NAME, shopDTO);
+        kafkaTemplate.send(SHOP_TOPIC_NAME, shopDTO.getBuyerIdentifier(), shopDTO);
     }
 }

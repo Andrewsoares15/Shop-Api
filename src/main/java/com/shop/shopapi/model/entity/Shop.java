@@ -22,6 +22,9 @@ public class Shop {
     @Column(name = "identifier", nullable = false)
     private String identifier;
 
+    @Column(name = "buyer_identifier", nullable = false)
+    private String buyerIdentifier;
+
     @Enumerated(EnumType.STRING)
     private Status status;
 
@@ -38,6 +41,7 @@ public class Shop {
         shop.setIdentifier(shopDTO.getIdentifier());
         shop.setStatus(shopDTO.getStatus());
         shop.setDateCreation(LocalDate.now());
+        shop.setBuyerIdentifier(shopDTO.getBuyerIdentifier());
         shop.setItems(
                 shopDTO.getItems()
                         .stream()

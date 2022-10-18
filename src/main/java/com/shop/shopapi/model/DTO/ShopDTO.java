@@ -16,6 +16,8 @@ import java.util.stream.Collectors;
 public class ShopDTO {
     private String identifier;
 
+    private String buyerIdentifier;
+
     private Status status;
 
     private LocalDate dateCreation;
@@ -27,6 +29,7 @@ public class ShopDTO {
         shopDTO.setIdentifier(shop.getIdentifier());
         shopDTO.setStatus(shop.getStatus());
         shopDTO.setDateCreation(shop.getDateCreation());
+        shopDTO.setBuyerIdentifier(shop.getBuyerIdentifier());
         shopDTO.setItems(
                 shop.getItems()
                         .stream()

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -28,8 +30,11 @@ public class ReceiveKafkaMessage {
     private SendTopicValidateShopSuccess sendTopicValidateShopDTOSucess;
 
     @KafkaListener(topics = ShopDTO_TOPIC_NAME, groupId = "consumerValidateShop", containerFactory = "kakfaConsumer")
-    public void listenShopDTOTopic(ShopDTO ShopDTO) {
-        log.info("message received {} ", ShopDTO.getIdentifier());
+    public void listenShopDTOTopic(ShopDTO ShopDTO,
+                                   @Header(KafkaHeaders.RECEIVED_KEY) String key,
+                                   @Header(KafkaHeaders.RECEIVED_PARTITION) String partition,
+                                   @Header(KafkaHeaders.RECEIVED_TIMESTAMP) String timeStamp) {
+        log.info("message received key: {} partition: {} timeStamp: {}  ", key, partition, timeStamp);
         try{
             boolean sucess = true;
             for(ShopItemDTO ShopItem : ShopDTO.getItems()){
