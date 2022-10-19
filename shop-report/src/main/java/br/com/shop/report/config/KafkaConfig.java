@@ -16,7 +16,7 @@ import java.util.Map;
 @Configuration
 public class KafkaConfig {
 
-    @Value("${kafka.boostrap.servers}")
+    @Value("${kafka.bootstrapAddress}")
     private String boostrapServers;
 
     public DefaultKafkaConsumerFactory<String, ShopDTO> kafkaConsumerFactory(){

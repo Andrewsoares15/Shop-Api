@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Configuration
 public class KafkaConfig {
 
-    @Value(value="${kafka.bootstrapAddress:localhost:9092}")
+    @Value(value="${kafka.bootstrapAddress}")
     private String boostrapAddress;
 
     public ProducerFactory<String, ShopDTO> producerFactory(){
@@ -39,7 +39,6 @@ public class KafkaConfig {
         deserializer.setUseTypeMapperForKey(true);
         HashMap<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, boostrapAddress);
-
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), deserializer);
 
     }
